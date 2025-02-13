@@ -25,16 +25,18 @@ export function Product({ product }: { product: SelectMachine }) {
           width="64"
         />
       </TableCell>
-      <TableCell className="font-medium">{product.name}</TableCell>
+      <TableCell className="font-medium">{product.serial}</TableCell>
       <TableCell>
         <Badge variant="outline" className="capitalize">
           {product.status}
         </Badge>
       </TableCell>
-      <TableCell className="hidden md:table-cell">{`$${product.price}`}</TableCell>
-      <TableCell className="hidden md:table-cell">{product.stock}</TableCell>
+      <TableCell className="hidden md:table-cell">{product.group}</TableCell>
       <TableCell className="hidden md:table-cell">
-        {product.availableAt.toLocaleDateString('en-US')}
+        {product.machineNumber}
+      </TableCell>
+      <TableCell className="hidden md:table-cell">
+        {product.created.toLocaleDateString('en-US')}
       </TableCell>
       <TableCell>
         <DropdownMenu>
@@ -49,6 +51,7 @@ export function Product({ product }: { product: SelectMachine }) {
             <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuItem>
               <form action={deleteProduct}>
+                <input type="hidden" name="id" value={product.id} />
                 <button type="submit">Delete</button>
               </form>
             </DropdownMenuItem>

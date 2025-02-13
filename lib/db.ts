@@ -16,17 +16,20 @@ import { createInsertSchema } from 'drizzle-zod';
 
 export const db = drizzle(neon(process.env.POSTGRES_URL!));
 
-export const statusEnum = pgEnum('status', ['active', 'inactive', 'archived']);
+export const statusEnum = pgEnum('status', [
+  'notyetprod',
+  'inprod',
+  'produced'
+]);
 
 export const machines = pgTable('machines', {
   id: serial('id').primaryKey(),
-  serial: text('serial').notNull(), // added new column 'serial'
+  serial: text('serial').notNull(),
   imageUrl: text('image_url').notNull(),
-  name: text('name').notNull(),
   status: statusEnum('status').notNull(),
-  price: numeric('price', { precision: 10, scale: 2 }).notNull(),
-  stock: integer('stock').notNull(),
-  availableAt: timestamp('available_at').notNull()
+  group: text('group'),
+  machineNumber: integer('machine_number').notNull(),
+  created: timestamp('created').notNull()
 });
 
 export type SelectMachine = typeof machines.$inferSelect;
@@ -45,7 +48,7 @@ export async function getMachines( // renamed from getProducts
       machines: await db
         .select()
         .from(machines)
-        .where(ilike(machines.name, `%${search}%`))
+        .where(ilike(machines.serial, `%${search}%`))
         .limit(1000),
       newOffset: null,
       totalProducts: 0
@@ -68,5 +71,8 @@ export async function getMachines( // renamed from getProducts
 }
 
 export async function deleteMachineById(id: number) {
-  await db.delete(machines).where(eq(machines.id, id));
+  await db
+    .delete(machines)
+    .where(eq(machines.id, id))
+    .then(() => console.log(id));
 }

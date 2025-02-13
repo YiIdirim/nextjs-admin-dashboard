@@ -46,7 +46,7 @@ export function MachinesTable({
       <CardHeader>
         <CardTitle>Machines</CardTitle>
         <CardDescription>
-          Manage your machines and view their sales performance.
+          Manage all Calibur machines and view their configuration.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -56,11 +56,11 @@ export function MachinesTable({
               <TableHead className="hidden w-[100px] sm:table-cell">
                 <span className="sr-only">Image</span>
               </TableHead>
-              <TableHead>Name</TableHead>
+              <TableHead>Serial</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead className="hidden md:table-cell">Price</TableHead>
+              <TableHead className="hidden md:table-cell">Group</TableHead>
               <TableHead className="hidden md:table-cell">
-                Total Sales
+                Machine Number
               </TableHead>
               <TableHead className="hidden md:table-cell">Created at</TableHead>
               <TableHead>
